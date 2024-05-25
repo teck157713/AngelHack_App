@@ -2,9 +2,13 @@ import { useState } from "react";
 import { Step1 } from "./step1";
 import { Step2 } from "./step2";
 import { useNavigate } from "react-router-dom";
+import { useUserAPI } from "../../apis/user.api";
+import useFirebase from "../../hooks/firebase.hook";
 
 export function Onboarding() {
+    const { user } = useFirebase();
     const navigate = useNavigate();
+    const userAPI = useUserAPI();
 
     const [ form, setForm ] = useState<any>({
         demographic: "ANY",
@@ -23,6 +27,15 @@ export function Onboarding() {
     }
 
     const onSubmit = () => {
+        if (user) {
+            userAPI
+                .saveUserPreferences({
+                    uid: user.uid,
+                    donationpref: form.demographic,
+                    donationlimit: form.limit
+                })
+        }
+        
         navigate("/", { replace: true });
     }
 
