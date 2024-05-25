@@ -5,6 +5,7 @@ import { SignUp } from "./pages/SignUp";
 import { Auth } from "./components/Auth";
 import { Onboarding } from "./pages/Onboarding";
 import { Home } from "./pages/Home";
+import { EditCard } from "./pages/EditCard";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +19,14 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Home />
+            },
+            {
+                path: "/card",
+                element: <EditCard />
+            },
+            {
+                path: "/card/:cardId",
+                element: <EditCard />
             }
         ]
     },
