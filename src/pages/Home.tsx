@@ -5,7 +5,7 @@ import POSB_Passion_Card from "../assets/posb-passion.webp";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Add } from "@mui/icons-material";
 import { theme } from "../theme";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserAPI } from "../apis/user.api";
 import useFirebase from "../hooks/firebase.hook";
 import { usePaymentAPI } from "../apis/payment.api";
@@ -14,7 +14,6 @@ import { useTransactionAPI } from "../apis/transaction.api";
 export function Home() {
     const { user } = useFirebase();
     const navigate = useNavigate();
-    const location = useLocation();
     const userAPI = useUserAPI();
     const paymentAPI = usePaymentAPI();
     const transactionAPI = useTransactionAPI();
