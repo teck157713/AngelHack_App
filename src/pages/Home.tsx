@@ -168,16 +168,27 @@ export function Home() {
             </Swiper>
 
             <Button
-                onClick={() => paymentAPI.createCheckoutSession({
-                    products: [
-                        {
-                            price: "price_1PKOyyAolTCNC7wTZkpMoBiO",
-                            quantity: 1
-                        }
-                    ],
-                    successUrl: `${window.location.href}payment-success`,
-                    cancelUrl: window.location.href
-                })}>
+                onClick={() => {
+                    paymentAPI
+                        .createCheckoutSession({
+                            products: [
+                                {
+                                    price_data: {
+                                        currency: "sgd",
+                                        product_data: {
+                                            name: "Test Product"
+                                        },
+                                        unit_amount: 960
+                                    },
+                                    quantity: 1
+                                }
+                            ],
+                            successUrl: `${window.location.href}payment-success`,
+                            cancelUrl: window.location.href
+                        })
+                        .then((res) => window.location.href = res.data.url)
+                        .catch(() => {})
+                }}>
                 Test Payment
             </Button>
 
