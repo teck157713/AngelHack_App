@@ -2,13 +2,23 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { SignIn } from "./pages/SignIn";
 import { SignUp } from "./pages/SignUp";
+import { Auth } from "./components/Auth";
+import { Onboarding } from "./pages/Onboarding";
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element: (
+            <Auth>
+                <Layout />
+            </Auth>
+        ),
         children: [
         ]
+    },
+    {
+        path: "/onboarding",
+        element: <Onboarding />
     },
     {
         path: "/signin",

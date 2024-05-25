@@ -1,17 +1,21 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
+import useFirebase from "../hooks/firebase.hook";
 
-export function Auth() {
+export function Auth({
+    children
+}: any) {
     const location = useLocation();
+    const {
+        user
+    } = useFirebase();
 
-    useEffect(() => {
-        if (![
-            "/signin",
-            "/signup"
-        ].includes(location.pathname)) {
-            
-        }
-    }, [location]);
+    const unprotectedRoutes = [
+        "/signin",
+        "/signup"
+    ];
 
-    return null;
+    return !unprotectedRoutes.includes(location.pathname) && !user ? 
+        <Navigate to="/signin" />
+        :
+        children
 }
