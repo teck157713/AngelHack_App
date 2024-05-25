@@ -171,6 +171,7 @@ export function Home() {
                 onClick={() => {
                     paymentAPI
                         .createCheckoutSession({
+                            uid: user?.uid || "",
                             products: [
                                 {
                                     price_data: {

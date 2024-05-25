@@ -3,6 +3,7 @@ import { api } from "./api"
 export function usePaymentAPI() {
     return {
         createCheckoutSession: (payload: {
+            uid: string,
             products: {
                 price_data: {
                     currency: string,
