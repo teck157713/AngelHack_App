@@ -175,8 +175,8 @@ export function Home() {
                             quantity: 1
                         }
                     ],
-                    successUrl: window.location.href.replace(location.pathname, "/payment-success"),
-                    cancelUrl: window.location.href.replace(location.pathname, "/")
+                    successUrl: `${window.location.href}payment-success`,
+                    cancelUrl: window.location.href
                 })}>
                 Test Payment
             </Button>
