@@ -3,8 +3,8 @@ import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import { router } from "./router";
 import { theme } from "./theme";
+import { FirebaseProvider } from "./providers/firebase.provider";
 // import { store } from "./store";
-import FirebaseProvider from "./providers/firebase.provider";
 
 export function App() {
     return (
