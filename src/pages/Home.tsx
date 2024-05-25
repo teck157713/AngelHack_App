@@ -1,18 +1,21 @@
-import { Fab, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Button, Fab, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { SyntheticEvent, useEffect, useState } from "react";
 import DBS_Multi_Currency_Card from "../assets/dbs-visa-multi-currency.webp";
 import POSB_Passion_Card from "../assets/posb-passion.webp";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Add } from "@mui/icons-material";
 import { theme } from "../theme";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAPI } from "../apis/user.api";
 import useFirebase from "../hooks/firebase.hook";
+import { usePaymentAPI } from "../apis/payment.api";
 
 export function Home() {
     const { user } = useFirebase();
     const navigate = useNavigate();
+    const location = useLocation();
     const userAPI = useUserAPI();
+    const paymentAPI = usePaymentAPI();
     const [selectedTab, setSelectedTab] = useState(0);
 
     useEffect(() => {
@@ -108,6 +111,20 @@ export function Home() {
                     />
                 </SwiperSlide>
             </Swiper>
+
+            <Button
+                onClick={() => paymentAPI.createCheckoutSession({
+                    products: [
+                        {
+                            price: "price_1PKOyyAolTCNC7wTZkpMoBiO",
+                            quantity: 1
+                        }
+                    ],
+                    successUrl: window.location.href.replace(location.pathname, "/payment-success"),
+                    cancelUrl: window.location.href.replace(location.pathname, "/")
+                })}>
+                Test Payment
+            </Button>
 
             <Fab
                 sx={{

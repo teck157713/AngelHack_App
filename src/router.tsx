@@ -6,6 +6,7 @@ import { Auth } from "./components/Auth";
 import { Onboarding } from "./pages/Onboarding";
 import { Home } from "./pages/Home";
 import { EditCard } from "./pages/EditCard";
+import { PaymentSuccess } from "./pages/PaymentSuccess";
 
 export const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
             {
                 path: "/card/:cardId",
                 element: <EditCard />
+            },
+            {
+                path: "/payment-success",
+                element: <PaymentSuccess />
             }
         ]
     },
