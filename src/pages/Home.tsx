@@ -52,8 +52,8 @@ export function Home() {
                     sx={{
                         textDecoration: "none"
                     }}>
-                    <Tab label="Weekly" />
                     <Tab label="Monthly" />
+                    <Tab label="Yearly" />
                     <Tab label="All-Time" />
                 </Tabs>
                 <Stack
