@@ -85,7 +85,10 @@ export function Home() {
             <Swiper
                 slidesPerView={"auto"}
                 centeredSlides={true}
-                spaceBetween={16}>
+                spaceBetween={16}
+                style={{
+                    maxWidth: "100%"
+                }}>
                 <SwiperSlide
                     style={{
                         width: 256
