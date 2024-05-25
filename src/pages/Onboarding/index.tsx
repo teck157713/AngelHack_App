@@ -34,9 +34,9 @@ export function Onboarding() {
                     donationpref: form.demographic,
                     donationlimit: form.limit
                 })
+                .then(() => navigate("/", { replace: true }))
+                .catch(() => console.log("GG"));
         }
-        
-        navigate("/", { replace: true });
     }
 
     switch (step) {
