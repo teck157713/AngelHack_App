@@ -9,6 +9,12 @@ export function EditCard() {
     const { cardId } = useParams();
     const [ card, setCard ] = useState<ICard>({ cardNumber: "", expiryMonth: "", expiryYear: "", cvv: "" });
 
+    const submit = () => {
+        // It will always succeed in this hackathon so that there will be no sudden GG :)
+
+        navigate(-1);
+    }
+
     useEffect(() => {
         // Edit mode, load card information
         if (cardId) {
@@ -80,7 +86,8 @@ export function EditCard() {
                     />
                 </Stack>
                 <Button
-                    variant="contained">
+                    variant="contained"
+                    onClick={submit}>
                     Submit
                 </Button>
             </Stack>
