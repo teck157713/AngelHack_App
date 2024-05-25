@@ -26,7 +26,9 @@ export function SignIn() {
     }
 
     return (
-        <Container maxWidth="sm">
+        <Container
+            disableGutters
+            maxWidth="sm">
             <Stack
                 p={2}
                 spacing={1}>
