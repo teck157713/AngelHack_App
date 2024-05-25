@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useUserAPI } from "../apis/user.api";
 import useFirebase from "../hooks/firebase.hook";
 import { usePaymentAPI } from "../apis/payment.api";
+import { useTransactionAPI } from "../apis/transaction.api";
 
 export function Home() {
     const { user } = useFirebase();
@@ -16,9 +17,30 @@ export function Home() {
     const location = useLocation();
     const userAPI = useUserAPI();
     const paymentAPI = usePaymentAPI();
+    const transactionAPI = useTransactionAPI();
     const [selectedTab, setSelectedTab] = useState(0);
+    const [ donated, setDonated ] = useState(0);
+    const [ taxDeducted, setTaxDeducted ] = useState(0);
 
-    useEffect(() => {
+    const tabs: {
+        label: string,
+        value?: "M" | "Y"
+    }[] = [
+        {
+            label: "Monthly",
+            value: "M"
+        },
+        {
+            label: "Yearly",
+            value: "Y"
+        },
+        {
+            label: "All-Time",
+            value: undefined
+        }
+    ]
+
+    const loadUserPreferences = () => {
         if (user) {
             userAPI
                 .getUserPreferences({
@@ -35,6 +57,34 @@ export function Home() {
                     // We are not going to handle errors for now :)
                 })
         }
+    }
+
+    const loadAmount = (tab: number) => {
+        if (user) {
+            transactionAPI
+                .getAmount({
+                    uid: user.uid,
+                    timeframe: tabs[tab].value
+                })
+                .then((res) => {
+                    setDonated(res.data?.donatedAmount || 0);
+                    setTaxDeducted(res.data?.taxDeducted || 0);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    // We are not going to handle errors for now :)
+                })
+        }
+    }
+
+    const handleSelectTab = (_: SyntheticEvent, newValue: number) => {
+        loadAmount(newValue);
+        setSelectedTab(newValue);
+    }
+
+    useEffect(() => {
+        loadUserPreferences();
+        loadAmount(selectedTab);
     }, []);
 
     return (
@@ -47,14 +97,19 @@ export function Home() {
                 spacing={2}>
                 <Tabs
                     value={selectedTab}
-                    onChange={(_: SyntheticEvent, newValue: number) => setSelectedTab(newValue)}
+                    onChange={handleSelectTab}
                     variant="fullWidth"
                     sx={{
                         textDecoration: "none"
                     }}>
-                    <Tab label="Monthly" />
-                    <Tab label="Yearly" />
-                    <Tab label="All-Time" />
+                    {
+                        tabs.map(tab => (
+                            <Tab 
+                                key={tab.label}
+                                label={tab.label}
+                            />
+                        ))
+                    }
                 </Tabs>
                 <Stack
                     direction="row"
@@ -64,7 +119,7 @@ export function Home() {
                         alignItems="center">
                         <Typography
                             variant="h4">
-                            ${1000 * (selectedTab + 1)}
+                            ${donated.toFixed(2)}
                         </Typography>
                         <Typography variant="h5">
                             Donated
@@ -76,7 +131,7 @@ export function Home() {
                         alignItems="center">
                         <Typography
                             variant="h4">
-                            ${1000 * (selectedTab + 1)}
+                            ${taxDeducted.toFixed(2)}
                         </Typography>
                         <Typography variant="h5">
                             Tax Deducted
